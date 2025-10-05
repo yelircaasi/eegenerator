@@ -3,11 +3,21 @@
 
 
 :root {
-    --green: #0a370d;
-    --blue: #0c1566;
+    --font-white: #b4c8c7;
+    --font-gray: #2c3e50;
+    --green: #062809;
+    /* --blue: #09104b; */
+    --blue: #04312e;
+    --download-button-blue: #0a0d2c;
     --red: #910e10;
-    --gradient-bg: linear-gradient(135deg, var(--green) 0%, var(--blue) 100%);
+    --gradient-bg: var(--blue);
+    /* linear-gradient(135deg, var(--green) 0%, var(--blue) 100%); */
     --header-bg: #191e22;
+    --left-bg: rgb(214, 215, 215, 0);
+    --right-bg: rgb(171, 171, 171, 0);
+    --text-entry-bg: #90c7c3;
+    --doc-bg: rgb(241, 239, 239);
+    --container-bg: rgba(21, 21, 97, 0.1);
 }
 
 * {
@@ -25,7 +35,7 @@ body {
 }
 
 .container {
-    background: rgba(158, 158, 163, 0.75);
+    background: var(--container-bg);
     backdrop-filter: blur(20px) saturate(180%);
     border: 1px solid rgba(1, 5, 15, 0.25);
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
@@ -42,7 +52,7 @@ body {
 
 .header {
     background: var(--header-bg);
-    color: white;
+    color: var(--font-white);
     padding: 30px;
     text-align: center;
 }
@@ -65,14 +75,14 @@ body {
 
 .controls-panel {
     flex: 0 0 400px;
-    background: #d6d7d7;
+    background: var(--left-bg);
     padding: 30px;
-    border-right: 2px solid #e9ecef;
+    border-right: 2px solid #667eea;
     overflow-y: auto;
 }
 
 .controls-panel h2 {
-    color: #2c3e50;
+    color: var(--font-white);
     margin-bottom: 25px;
     font-size: 1.5rem;
     border-bottom: 3px solid #667eea;
@@ -87,7 +97,7 @@ body {
     display: block;
     margin-bottom: 4px;
     font-weight: 600;
-    color: #2c3e50;
+    color: var(--font-white);
     font-size: 0.85rem;
 }
 
@@ -96,19 +106,19 @@ body {
 .form-group textarea {
     width: 100%;
     padding: 9px 12px;
-    border: 2px solid #e9ecef;
+    border: 2px solid #03201e;
     border-radius: 4px;
     font-size: 1rem;
     transition: all 0.3s ease;
-    background: rgb(240, 239, 239);
+    background: var(--text-entry-bg);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: #8fe7e1;
+    box-shadow: 0 0 0 3px rgba(8, 79, 77, 0.1);
     transform: translateY(-2px);
 }
 
@@ -120,7 +130,7 @@ body {
 .download-btn {
     width: 100%;
     padding: 15px;
-    background: var(--blue);
+    background: var(--download-button-blue);
     color: white;
     border: none;
     border-radius: 4px;
@@ -143,12 +153,12 @@ body {
 .document-preview {
     flex: 1;
     padding: 30px;
-    background: rgb(171, 171, 171);
+    background: var(--right-bg);
     overflow-y: auto;
 }
 
 .document-preview h2 {
-    color: #2c3e50;
+    color: var(--font-white);
     margin-bottom: 25px;
     font-size: 1.5rem;
     border-bottom: 3px solid #667eea;
@@ -156,8 +166,8 @@ body {
 }
 
 .document-content {
-    background: rgb(241, 239, 239);
-    border: 1px solid #ddd;
+    background: var(--doc-bg);
+    border: 1px solid #667eea;
     border-radius: 4px;
     padding: 40px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
@@ -170,7 +180,7 @@ body {
     text-align: center;
     margin-bottom: 30px;
     font-size: 2rem;
-    color: #2c3e50;
+    color: var(--font-gray);
 }
 
 .document-content h2 {
@@ -220,7 +230,7 @@ body {
 }
 
 .signature-line {
-    border-bottom: 2px solid #2c3e50;
+    border-bottom: 2px solid var(--font-white);
     margin-bottom: 10px;
     height: 50px;
 }
