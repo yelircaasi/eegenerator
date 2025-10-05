@@ -1,5 +1,5 @@
 import {
-    BorderStyle,
+    // BorderStyle,
     Document,
     Packer,
     Paragraph,
@@ -11,8 +11,8 @@ import {
     HeadingLevel,
     WidthType,
     UnderlineType,
-    VerticalAlignTable,
-    TextDirection,
+    // VerticalAlignTable,
+    // TextDirection,
     TableLayoutType,
 } from "https://cdn.jsdelivr.net/npm/docx@9.5.1/+esm";
 
