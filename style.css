@@ -18,6 +18,11 @@
     --text-entry-bg: #90c7c3;
     --doc-bg: rgb(241, 239, 239);
     --container-bg: rgba(21, 21, 97, 0.1);
+
+    --font-size-title: 14px;
+    --font-size-heading: 12px;
+    --font-size-label: 12px;
+    --font-size-text: 12px;
 }
 
 * {
@@ -58,14 +63,14 @@ body {
 }
 
 .header h1 {
-    font-size: 2.5rem;
+    font-size:  var(--font-size-title) /* 2.5rem */;
     margin-bottom: 10px;
     font-weight: 700;
 }
 
 .header p {
     opacity: 0.9;
-    font-size: 1.1rem;
+    font-size: var(--font-size-header) /* 1.1rem */;
 }
 
 .main-content {
@@ -84,13 +89,13 @@ body {
 .controls-panel h2 {
     color: var(--font-white);
     margin-bottom: 25px;
-    font-size: 1.5rem;
+    font-size: var(--font-size-heading) /* 1.5rem */;
     border-bottom: 3px solid #667eea;
     padding-bottom: 5px;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .form-group label {
@@ -98,7 +103,7 @@ body {
     margin-bottom: 4px;
     font-weight: 600;
     color: var(--font-white);
-    font-size: 0.85rem;
+    font-size: var(--font-size-label) /* 0.85rem */;
 }
 
 .form-group input,
@@ -108,7 +113,7 @@ body {
     padding: 9px 12px;
     border: 2px solid #03201e;
     border-radius: 4px;
-    font-size: 1rem;
+    font-size: var(--font-size-text) /* 1rem */;
     transition: all 0.3s ease;
     background: var(--text-entry-bg);
 }
@@ -134,7 +139,7 @@ body {
     color: white;
     border: none;
     border-radius: 4px;
-    font-size: 1.1rem;
+    font-size: var(--font-size-label) /* 1.1rem */;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -160,7 +165,7 @@ body {
 .document-preview h2 {
     color: var(--font-white);
     margin-bottom: 25px;
-    font-size: 1.5rem;
+    font-size: var(--font-size-heading) /* 1.5rem */;
     border-bottom: 3px solid #667eea;
     padding-bottom: 10px;
 }
@@ -179,7 +184,7 @@ body {
 .document-content h1 {
     text-align: center;
     margin-bottom: 30px;
-    font-size: 2rem;
+    font-size: var(--font-size-title) /* 2rem */;
     color: var(--font-gray);
 }
 
