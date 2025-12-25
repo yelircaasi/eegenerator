@@ -29,7 +29,7 @@
 
                 <div class="form-group">
                     <label for="patientName">Patient Name:</label>
-                    <input type="text" id="patientName" placeholder="York Hawk" />
+                    <input type="text" id="patientName" placeholder="Peter Peterson" />
                 </div>
 
                 <div class="form-group">
@@ -57,7 +57,7 @@
 
                 <div class="form-group">
                     <label for="neuroPhys">Neurophysiologist:</label>
-                    <input type="text" id="neuroPhys" placeholder="Huda Ab Booty" />
+                    <input type="text" id="neuroPhys" placeholder="Aleksandra Aleksandrovna" />
                 </div>
 
                 <!-- <div class="form-group">
@@ -67,7 +67,7 @@
 
                 <div class="form-group">
                     <label for="refPhysician">Referring Physician:</label>
-                    <input type="text" id="refPhysician" />
+                    <input type="text" id="refPhysician" placeholder="Hakim Hakimi"/>
                 </div>
 
                 <!-- <div class="form-group">
@@ -75,49 +75,77 @@
                     <input type="text" id="eegNum" />
                 </div> -->
 
+                <!-- <div class="form-group">
+                    <label for="descriptionPresets">Description:</label>
+                    <select id="descriptionPresets" multiple></select>
+                </div> -->
                 <div class="form-group">
-                    <label for="diagnosis">Clinical Diagnosis:</label>
-                    <input type="text" id="diagnosis" />
+                    <label for="descriptionFreeform">Description — Additional Notes:</label>
+                    <textarea id="descriptionFreeform" placeholder="<EMPTY>"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="medications">Medications:</label>
-                    <input type="text" id="medications" />
+                    <label for="backgroundPresets">Background:</label>
+                    <select id="backgroundPresets" multiple></select>
+                </div>
+                <div class="form-group">
+                    <label for="betaPresets">Beta Activity:</label>
+                    <select id="betaPresets" multiple></select>
+                </div>
+                <div class="form-group">
+                    <label for="sleepPresets">Sleep:</label>
+                    <select id="sleepPresets" multiple></select>
+                </div>
+                <div class="form-group">
+                    <label for="backgroundFreeform">Background — Additional Notes:</label>
+                    <textarea id="backgroundFreeform" placeholder="<EMPTY>"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="findingsPresets">Findings:</label>
+                    <select id="findingsPresets" multiple></select>
+                </div>
+                <div id="findingsPhoticStimulationPresetsDiv" class="form-group hidden">
+                    <label for="findingsPhoticStimulationPresets">↳ Findings — Photic Stimulation Suboptions</label>
+                    <select id="findingsPhoticStimulationPresets" ></select>
+                </div>
+                <div id="findingsHyperventilationPresetsDiv" class="form-group hidden">
+                    <label for="findingsHyperventilationPresets">↳ Findings — Hyperventilation Suboptions</label>
+                    <select id="findingsHyperventilationPresets" ></select>
+                </div>
+                <div id="findingsFocalSlowingPresetsDiv" class="form-group hidden">
+                    <label for="findingsFocalSlowingPresets">↳ Findings — Focal Slowing Suboptions</label>
+                    <select id="findingsFocalSlowingPresets" ></select>
                 </div>
 
-                <h2>Report Sections</h2>
                 <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea id="description"></textarea>
+                    <label for="findingsFreeform">Findings — Additional Notes:</label>
+                    <textarea id="findingsFreeform" placeholder="<EMPTY>"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="diagnosisPreset">Diagnosis Preset:</label>
-                    <select id="diagnosisPreset">
-                        <option value="">(Select a preset)</option>
-                        <option value="The EEG is normal because of:
-• Regular rhythm
-• No epileptiform activity">Normal</option>
-                        <option value="Abnormal EEG due to:
-• Intermittent sharp waves
-• Slowing">Abnormal</option>
-                    </select>
+                    <label for="diagnosisPresets">Diagnosis:</label>
+                    <select id="diagnosisPresets" multiple></select>
+                </div>
+                <div id="dischargePresetsDiv" class="form-group hidden">
+                    <label for="dischargePresets">↳ Diagnosis — Discharge Suboptions</label>
+                    <select id="dischargePresets"></select>
                 </div>
 
                 <div class="form-group">
-                    <label for="diagnosisText">Diagnosis Notes:</label>
-                    <textarea id="diagnosisText"></textarea>
+                    <label for="diagnosisFreeform">Diagnosis — Additional Notes:</label>
+                    <textarea id="diagnosisFreeform" placeholder="<EMPTY>"></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="clinicalInterp">Clinical Interpretation:</label>
-                    <textarea id="clinicalInterp"></textarea>
+                    <label for="interpretationPresets">Clinical Interpretation:</label>
+                    <select id="interpretationPresets" multiple></select>
                 </div>
 
                 <div class="form-group">
-                    <label for="ref">REF:</label>
-                    <textarea id="ref"></textarea>
+                    <label for="interpretationFreeform">Clinical Interpretation — Additional Notes:</label>
+                    <textarea id="interpretationFreeform" placeholder="<EMPTY>"></textarea>
                 </div>
+
 
                 <button class="download-btn" onclick="downloadDocument()">🤮 Word Document</button>
             </div>

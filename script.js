@@ -16,7 +16,10 @@ import {
     TableLayoutType,
 } from "https://cdn.jsdelivr.net/npm/docx@9.5.1/+esm";
 
-console.log(HeadingLevel);
+// console.log(HeadingLevel);
+
+const relevantDiagnosisKeys = ["focalDischarges"];
+const relevantFindingsKeys = ["photicStimulation", "hyperventilation", "focalSlowing"];
 
 const FontSize = {
     TITLE: 22,
@@ -26,27 +29,33 @@ const FontSize = {
     SECTION_TITLE: 17,
 };
 
-const EDITME = "<EDIT ME!!!>"
+const EDITME = "______"
 
+var isDischarge = false;
+var hasFindngsSuboptions = false;
 // HELPER FUNCTIONS ===============================================================================
 
-const f = id => document.getElementById(id)?.value || "";
+function fallback(id, defaultValue) {
+    return document.getElementById(id)?.value || defaultValue
+}
 
 function getFields() {
     return {
-        title: f("reportTitle") || "EEG Report",
-        patientName: f("patientName"),
-        date: f("date"),
-        age: f("age"),
-        sex: f("sex"),
-        neuroPhys: f("neuroPhys"),
-        refPhysician: f("refPhysician"),
-        diagnosis: f("diagnosis"),
-        medications: f("medications"),
-        description: f("description"),
-        diagnosisText: f("diagnosisText"),
-        clinicalInterp: f("clinicalInterp"),
-        ref: f("ref"),
+        title: fallback("reportTitle") || "EEG Report",
+        patientName: fallback("patientName", "Peter Peterson"),
+        date: fallback("date"),
+        age: fallback("age", "101"),
+        sex: fallback("sex"),
+        neuroPhys: fallback("neuroPhys", "Aleksandra Aleksandrovna"),
+        refPhysician: fallback("refPhysician", "Hakim Hakimi"),
+        diagnosis: fallback("diagnosis"),
+        medications: fallback("medications"),
+        description: fallback("description"),
+        background: fallback("background"),
+        findings: fallback("findings"),
+        diagnosisFreeform: fallback("diagnosisFreeform"),
+        clinicalInterp: fallback("clinicalInterp"),
+        ref: fallback("ref"),
         // unit: f("unit"),
         // caseNum: f("caseNum"),
         // eegNum: f("eegNum"),
@@ -54,7 +63,7 @@ function getFields() {
 }
 
 const placeholder = (text, fallback = "—") =>
-    text && text.trim() ? text : `<span class="placeholder">${fallback}</span>`;
+    text && text.trim() ? `<span style="white-space: pre-wrap;">${text}<\span>` : `<span class="placeholder">${fallback}</span>`;
 
 const makeParagraph = (text, opts = {}) =>
     new Paragraph({ children: [new TextRun({ text, ...opts })] });
@@ -182,174 +191,173 @@ const descriptionBetaActivityOptions = {
         "short": "Paucity of beta activity",
         "text": "There is a paucity of beta activity over ${EDITME}.",
     },
-    "betaFreeform": {
-        "number": 4,
-        "short": "Additional beta description",
-        "text": `${EDITME}`,
-    },
+    // "betaFreeform": {
+    //     "number": 4,
+    //     "short": "Additional beta description",
+    //     "text": `${EDITME}`,
+    // },
 };
 const descriptionSleepOptions = {
-    "suboptions": {
-        "drowsiness": {
-            "frontocentral": {
-                "number": 1,
-                "short": "spindles & waves over frontocentral derivations",
-                "text": `During stage II sleep, sleep spindles and vertex waves were seen over the frontocentral derivations.`,
-            },
-            "parasagittal": {
-                "number": 2,
-                "short": "paucity of spindles & waves - parasagittal",
-                "text": `During stage II sleep, paucity of sleep spindles and vertex waves were seen over the (bilateral/right/left) parasagittal region.`,
-            },
-            "asynchronous": {
-                "number": 3,
-                "short": "spindles & waves async but symmetrical",
-                "text": `During stage II sleep, sleep spindles and vertex waves were asynchronous but overall symmetrical.`,
-            },
-            "notRecorded": {
-                "number": 4,
-                "short": "not recorded",
-                "text": `Stage II sleep was not recorded.`,
-            },
-        }
+    "frontocentralDrowsiness": {
+        "number": 1,
+        "short": "drowsiness - frontocentral",
+        "text": `During stage II sleep, sleep spindles and vertex waves were seen over the frontocentral derivations.`,
+    },
+    "parasagittalDrowsiness": {
+        "number": 2,
+        "short": "drowsiness - parasagittal",
+        "text": `During stage II sleep, paucity of sleep spindles and vertex waves were seen over the (bilateral/right/left) parasagittal region.`,
+    },
+    "asynchronousDrowsiness": {
+        "number": 3,
+        "short": "drowsiness - asynchronous",
+        "text": `During stage II sleep, sleep spindles and vertex waves were asynchronous but overall symmetrical.`,
+    },
+    "drowsinessNotRecorded": {
+        "number": 4,
+        "short": "drowsiness not recorded",
+        "text": `Stage II sleep was not recorded.`,
     },
     "drowsinesSlowing": {
-        "number": 1,
+        "number": 5,
         "short": "Generalized slowing during drowsiness",
         "text": "During drowsiness, generalized slowing of the background was seen.",
     },
     "sleepSlowing": {
-        "number": 2,
+        "number": 6,
         "short": "Generalized slowing during sleep",
         "text": "During behavioral sleep, further generalized slowing of the background activity was seen.",
     },
     "sleepSlowingWithSuppression": {
-        "number": 3,
+        "number": 7,
         "short": "Generalized slowing with intermittent suppression",
         "text": "During behavioral sleep, further generalized slowing of the background activity was seen with a superimposed intermittent suppression.",
     },
     "sleepSlowingWithAttenuation": {
-        "number": 4,
+        "number": 8,
         "short": "Generalized slowing with attenuation",
         "text": "During behavioral sleep, further generalized slowing and attenuation of the background activity was seen.",
     },
     "abnormalSleepArchitecture": {
-        "number": 5,
+        "number": 9,
         "short": "Absence of normal sleep architecture",
         "text": "There was an absence of normal sleep architecture features.",
     },
     "sleepFreeform": {
-        "number": 6,
+        "number": 10,
         "short": "Additional sleep findings",
-        "text": `${EDITME}`,
+        "text": `${EDITME + '(describe additional sleep characteristics)'}`,
     },
 };
+const findingsSuboptions = {
+    "photicStimulation": {
+        "1": {
+            "number": 1,
+            "short": "physiologic",
+            "text": "was physiologic.",
+        },
+        "2": {
+            "number": 2,
+            "short": "not performed",
+            "text": `was not performed.`,
+        },
+        "3": {
+            "number": 3,
+            "short": "sustained photoparoxysmal response",
+            "text": `resulted in a sustained photoparoxysmal response following stimulation with multiple flash frequencies.`,
+        },
+        "4": {
+            "number": 4,
+            "short": "non-sustained photoparoxysmal response",
+            "text": `resulted in a sustained photoparoxysmal response following stimulation with multiple flash frequencies.`,
+        },
+        "5": {
+            "number": 5,
+            "short": "spiky occipital driving response",
+            "text": `resulted in a spiky occipital driving response following stimulation with multiple flash frequencies.`,
+        },
+        "6": {
+            "number": 6,
+            "short": "free-form",
+            "text": `${EDITME + '(mention seizures if present).'}`,
+        },
+    },
+    "hyperventilation": {
+        "physiologic": {
+            "number": 1,
+            "short": "physiologic",
+            "text": `was physiologic.`,
+        },
+        "notPerformed": {
+            "number": 2,
+            "short": "not performed",
+            "text": `was not performed.`,
+        },
+        "activation": {
+            "number": 3,
+            "short": "activated discharges",
+            "text": `resulted in activation of the abovementioned epileptiform discharges.`,
+        },
+        "accentuated": {
+            "number": 4,
+            "short": "accentuated discharges",
+            "text": `accentuated the generalized epileptiform discharges.`,
+        },
+        "other": {
+            "number": 5,
+            "short": "other (seizures?)",
+            "text": `${EDITME + ' (Mention seizures if present).'}.`,
+        },
+    },
+    "focalSlowing": {
+        "lowAmplitude": {
+            "number": 1,
+            "short": "low-amplitude",
+            "text": "low-amplitude.",
+        },
+        "minAmplitude": {
+            "number": 2,
+            "short": "mid-amplitude",
+            "text": "mid-amplitude.",
+        },
+        "highAmplitude": {
+            "number": 3,
+            "short": "high-amplitude – polymorphic",
+            "text": "high-amplitude – polymorphic.",
+        },
+        "monomorphic": {
+            "number": 4,
+            "short": "monomorphic - theta activity",
+            "text": "monomorphic - theta activity.",
+        },
+        "delta": {
+            "number": 5,
+            "short": "delta activity",
+            "text": "delta activity.",
+        },
+        "thetaDelta": {
+            "number": 5,
+            "short": "theta-delta activity",
+            "text": "theta-delta activity.",
+        },
+    }
+};
 const findingsOptions = {
-    "_suboptions": {
-        "photicStimulation": {
-            "": {
-                "number": 1,
-                "short": null,
-                "text": "was physiologic",
-            },
-            "": {
-                "number": 2,
-                "short": null,
-                "text": `was not performed`,
-            },
-            "": {
-                "number": 3,
-                "short": "sustained photoparoxysmal response",
-                "text": `resulted in a sustained photoparoxysmal response following stimulation with multiple flash frequencies`,
-            },
-            "": {
-                "number": 4,
-                "short": "non-sustained photoparoxysmal response",
-                "text": `resulted in a sustained photoparoxysmal response following stimulation with multiple flash frequencies`,
-            },
-            "": {
-                "number": 5,
-                "short": "spiky occipital driving response",
-                "text": `resulted in a spiky occipital driving response following stimulation with multiple flash frequencies`,
-            },
-            "": {
-                "number": 6,
-                "short": "free-form",
-                "text": `${EDITME + '<mention seizures if present>'}`,
-            },
-        },
-        "hyperventilation": {
-            "": {
-                "number": 1,
-                "short": "",
-                "text": `was physiologic.`,
-            },
-            "": {
-                "number": 2,
-                "short": "",
-                "text": `was not performed.`,
-            },
-            "": {
-                "number": 3,
-                "short": "",
-                "text": `Hyperventilation resulted in activation of the abovementioned epileptiform discharges.`,
-            },
-            "": {
-                "number": 4,
-                "short": "",
-                "text": `Hyperventilation accentuated the generalized epileptiform discharges.`,
-            },
-            "": {
-                "number": 5,
-                "short": "",
-                "text": `${EDITME + '<Mention seizures if present>.'}.`,
-            },
-        },
-        "focalSlowingDetailedOptions": {
-            "": {
-                "number": 1,
-                "short": null,
-                "text": "low-amplitude",
-            },
-            "": {
-                "number": 2,
-                "short": null,
-                "text": "mid-amplitude",
-            },
-            "": {
-                "number": 3,
-                "short": null,
-                "text": "high-amplitude – polymorphic",
-            },
-            "": {
-                "number": 4,
-                "short": null,
-                "text": "monomorphic - theta activity",
-            },
-            "": {
-                "number": 5,
-                "short": null,
-                "text": "delta activity",
-            },
-            "": {
-                "number": 5,
-                "short": null,
-                "text": "theta-delta activity",
-            },
-        }
-    },
-    "_subfields": {
-        "abundance": {}
-    },
+    // "_suboptions": {
+
+    // },
+    // "_subfields": {
+    //     "abundance": {}
+    // },
     "photicStimulation": {
         "number": 1,
         "short": "Photic stimulation response",
-        "text": "Photic stimulation {0}.",
+        "text": "Photic stimulation {0}",
     },
     "hyperventilation": {
         "number": 2,
         "short": "Hyperventilation response",
-        "text": "Hyperventilation {0}.",
+        "text": "Hyperventilation {0}",
     },
     "noEpiDischarges": {
         "number": 3,
@@ -379,12 +387,12 @@ const findingsOptions = {
     "focalSlowing": {
         "number": 8,
         "short": "Focal slowing",
-        "text": `{${EDITME}: Frequent/Intermittent/rare} focal slowing over the ${EDITME}.`,
+        "text": `${EDITME}{Frequent/Intermittent/Rare} focal slowing over the {0}`,
     },
     "focalSlowingDetailed": {
         "number": 9,
         "short": "Focal slowing (detailed description)",
-        "text": `${EDITME}, focal {0} slowing was seen with a maximum potential over the ${EDITME} electrode site and a field involving the ${EDITME}.`,
+        "text": `${EDITME}, focal ${EDITME} slowing was seen with a maximum potential over the ${EDITME} electrode site and a field involving the ${EDITME}.`,
     },
     "focalSlowingMax": {
         "number": 10,
@@ -448,8 +456,8 @@ const findingsOptions = {
     },
     "additionalNotes": {
         "number": 22,
-        "short": "Additional notes",
-        "text": `${EDITME}`,
+        "short": "Custom (use entry form below)",
+        "text": "",
     },
 };
 const diagnosisOptions = {
@@ -520,8 +528,8 @@ const diagnosisOptions = {
     },
     "modifiedHypsarrhythmia": {
         "number": 14,
-        "short": "Modified hypsarrhythmia",
-        "text": "Modified hypsarrhythmia.",
+        "short": "Modified hypoarrhythmia",
+        "text": "Modified hypoarrhythmia.",
     },
     "hypsarrhythmia": {
         "number": 15,
@@ -551,7 +559,7 @@ const diagnosisOptions = {
     "focalDischarges": {
         "number": 20,
         "short": "Focal epileptiform discharges",
-        "text": `${EDITME} focal epileptiform discharges originating from the ${EDITME}.`,
+        "text": `Focal epileptiform discharges originating from {0}`,
     },
     "focalSlowing": {
         "number": 21,
@@ -590,50 +598,54 @@ const diagnosisOptions = {
     },
     "diagnosisFreeform": {
         "number": 28,
-        "short": "Additional diagnosis",
-        "text": `${EDITME}`,
+        "short": "Custom (use entry form below)",
+        "text": "",
+    },
+};
+const epileptiformDischargeSuboptions = {
+    "1": {
+        "number": 1,
+        "short": "localization-related, focal",
+        "text": `a localization-related epilepsy, with focal irritative zone involving the ${EDITME} head regions.`,
+    },
+    "2": {
+        "number": 2,
+        "short": "localization-related, multifocal",
+        "text": `a localization-related epilepsy, with multifocal irritative zone involving the ${EDITME}* head regions.`,
+    },
+    "3": {
+        "number": 3,
+        "short": "localization-related, wide",
+        "text": `a localization-related epilepsy, with wide irritative zone involving the ${EDITME} head regions.`,
+    },
+    "4": {
+        "number": 4,
+        "short": "idiopathic",
+        "text": `an idiopathic generalized epilepsy.`,
+    },
+    "5": {
+        "number": 4,
+        "short": "genetic",
+        "text": `a genetic generalized epilepsy.`,
+    },
+    "6": {
+        "number": 5,
+        "short": "generalized epilepsy",
+        "text": `an idiopathic/genetic generalized epilepsy and are compatible with the patient previous diagnosis of ${EDITME}.`,
+    },
+    "7": {
+        "number": 6,
+        "short": "multifocal",
+        "text": `multifocal epilepsy.`,
+    },
+    "8": {
+        "number": 7,
+        "short": "encephalopathy",
+        "text": `Developmental and epileptic encephalopathy.`,
     },
 };
 const interpretationOptions = {
-    "suboptions": {
-        "epileptiformDischarges": {
-            "": {
-                "number": 1,
-                "short": "localization-related, focal",
-                "text": `a localization-related epilepsy, with focal irritative zone involving the ${EDITME} head regions.`,
-            },
-            "": {
-                "number": 2,
-                "short": "localization-related, multifocal",
-                "text": `a localization-related epilepsy, with multifocal irritative zone involving the ${EDITME}* head regions.`,
-            },
-            "": {
-                "number": 3,
-                "short": "localization-related, wide",
-                "text": `a localization-related epilepsy, with wide irritative zone involving the ${EDITME} head regions.`,
-            },
-            "": {
-                "number": 4,
-                "short": "",
-                "text": `{an idiopathic / a genetic} generalized epilepsy.`,
-            },
-            "": {
-                "number": 5,
-                "short": "",
-                "text": `an idiopathic/genetic generalized epilepsy and are compatible with the patient previous diagnosis of ${EDITME}`,
-            },
-            "": {
-                "number": 6,
-                "short": "",
-                "text": `multifocal epilepsy.`,
-            },
-            "": {
-                "number": 7,
-                "short": "",
-                "text": `Developmental and epileptic encephalopathy.`,
-            },
-        }
-    },
+
     "normalRecordFull": {
         "number": 1,
         "short": "Normal record (wakefulness, drowsiness, sleep)",
@@ -767,67 +779,227 @@ const interpretationOptions = {
 };
 
 
-function makeDescriptionIntro(fields) {
-    if (fields.medications) {
-        const medications = `The patient is currently maintained on ${medications}.`;
-    } else {
-        const medications = 'The patient is not currently maintained on antiepileptic medications.'
+
+
+// NEW MINI-FRAMEWORK =========================================================
+const EDITME_PLACEHOLDER = "____";
+
+function renderText(template, replacements = []) {
+    let out = template;
+    // console.log("TEMPLATE:", template);
+    for (const value of replacements) {
+        out = out.replace("${EDITME}", value ?? EDITME_PLACEHOLDER);
     }
+    return out.replace(/\$\{EDITME\}/g, EDITME_PLACEHOLDER);
+}
+
+function selectedOptions(selectEl) {
+    return Boolean(selectEl) ? Array.from(selectEl.selectedOptions).map(o => o.value) : [];
+}
+
+function selectedTexts(selectEl, optionsByKey) {
+    if (!selectEl) return [];
+
+    return Array.from(selectEl.selectedOptions)
+        .map(o => optionsByKey[o.value]?.text)
+        .filter(Boolean);
+}
+
+function populateSelected(selectId, options) {
+
+    const select = document.getElementById(selectId);
+    if (select.options.length === 0) {
+        select.innerHTML = "";
+
+        Object.entries(options)
+            .sort((a, b) => a[1].number - b[1].number)
+            .forEach(([key, opt]) => {
+                const o = document.createElement("option");
+                o.value = key;
+                o.textContent = opt.short ?? key;
+                select.appendChild(o);
+            });
+        try {
+            console.log(selectId);
+            select.size = select.options.length;
+        } catch { };
+    }
+}
+
+function getText(id) {
+    return `${document.getElementById(id).value || ""}`;
+}
+function joinParts(stringArray) {
+    return stringArray.filter(s => s !== "").join(" ");
+}
+
+function makeDescription(fields) {
+    const meds = fields.medications
+        ? `The patient is currently maintained on ${fields.medications}.`
+        : `The patient is not currently maintained on antiepileptic medications.`;
+
     return (
-        `This is a (duration) 21 channel digital video EEG `
-        + `recording performed on ${fields.age} y.o. ${fields.sex} `
-        + `{with a history of (diagnosis > see above): example 1 `
-        + `decreased level of consciousness to rule out subclinical seizures `
-        + `example 2 to rule out brain death}. ${medications}`
-    )
+        `This is a 21 channel digital video EEG recording performed on `
+        + `${fields.age} y.o. ${fields.sex}. `
+        + `(${meds})`
+    );
 }
 
-function makeDescriptionBackground(fields) {
-    return ``
-}
+function makeBackground() {
+    const presets = selectedOptions(
+        document.getElementById("backgroundPresets")
+    );
 
-function makedescriptionBetaActivity(fields) {
-    return ``
-}
+    const parts = presets.map(k =>
+        renderText(descriptionBackgroundOptions[k].text)
+    );
 
-function makeDescriptionSleep(fields) {
-    return ``
+    // const backgroundFreeform = document.getElementById("backgroundFreeform");
+    // if (backgroundFreeform) {
+    //     parts.push(backgroundFreeform);
+    // }
+
+
+    function makedescriptionBetaActivity() {
+        const presets = selectedOptions(
+            document.getElementById("betaPresets")
+        );
+
+        return presets
+            .map(k => renderText(descriptionBetaActivityOptions[k].text))
+            .join(" ");
+    }
+
+    function makeDescriptionSleep() {
+        const presets = selectedOptions(
+            document.getElementById("sleepPresets")
+        );
+
+        return presets
+            .map(k => renderText(descriptionSleepOptions[k].text))
+            .join(" ");
+    }
+
+    parts.push(getText("backgroundFreeform"));
+    parts.push(`\n\n${makedescriptionBetaActivity()}`);
+    parts.push(`\n\n${makeDescriptionSleep()}`);
+
+    return joinParts(parts).trim();
 }
 
 function makeFindings(fields) {
-    return ``
+    const presets = selectedOptions(
+        document.getElementById("findingsPresets")
+    );
+
+    function renderFindingsText(key) {
+        const text = findingsOptions[key].text;
+        if (key === relevantFindingsKeys[0]) {
+            const newText = selectedTexts(
+                document.getElementById("findingsPhoticStimulationPresets"),
+                findingsSuboptions[relevantFindingsKeys[0]],
+            )[0];
+            console.log(newText);
+            return text.replace("{0}", newText);
+        } else if (key === relevantFindingsKeys[1]) {
+            const newText = selectedTexts(
+                document.getElementById("findingsHyperventilationPresets"),
+                findingsSuboptions[relevantFindingsKeys[1]],
+            )[0];
+            console.log(newText);
+            return text.replace("{0}", newText);
+        } else if (key === relevantFindingsKeys[2]) {
+            const newText = selectedTexts(
+                document.getElementById("findingsFocalSlowingPresets"),
+                findingsSuboptions[relevantFindingsKeys[2]],
+            )[0];
+            console.log(newText);
+            return text.replace("{0}", newText);
+        }
+        return text;
+    }
+
+    const parts = presets.map(k =>
+        renderFindingsText(k)
+    );
+
+    parts.push(getText("findingsFreeform"));
+
+
+
+    return joinParts(parts);
 }
 
 function makeDiagnosis(fields) {
-    return ``
+    const presets = selectedOptions(
+        document.getElementById("diagnosisPresets")
+    );
+
+    function renderDiagnosisText(key) {
+        const text = diagnosisOptions[key].text;
+        if (relevantDiagnosisKeys.includes(key)) {
+            const newText = selectedTexts(document.getElementById("dischargePresets"), epileptiformDischargeSuboptions)[0];
+            console.log(newText);
+            return text.replace("{0}", newText);
+        }
+        return text;
+    }
+
+    const parts = presets.map(k =>
+        renderDiagnosisText(k)
+    );
+
+    parts.push(getText("diagnosisFreeform"));
+
+    return joinParts(parts);
 }
 
 function makeInterpretation(fields) {
-    return ``
+    const presets = selectedOptions(
+        document.getElementById("interpretationPresets")
+    );
+
+    const parts = presets.map(k =>
+        renderText(interpretationOptions[k].text)
+    );
+
+    parts.push(getText("interpretationFreeform"));
+
+    return joinParts(parts);
 }
 
+
+// ============================================================================
+
+
 function writeProse(fields,) {
+    // console.log("EXECUTING writeProse");
     const sections = {
-        descriptionIntro: makeDescriptionIntro(fields),
-        descriptionBackground: makeDescriptionBackground(fields),
-        descriptionBetaActivity: makedescriptionBetaActivity(fields),
-        descriptionSleep: makeDescriptionSleep(fields),
+        // descriptionIntro: makeDescriptionIntro(fields),
+        // descriptionBackground: makeDescriptionBackground(fields),
+        // descriptionBetaActivity: makedescriptionBetaActivity(fields),
+        // descriptionSleep: makeDescriptionSleep(fields),
+        background: makeBackground(),
+        description: makeDescription(fields),
         findings: makeFindings(fields),
         diagnosis: makeDiagnosis(fields),
         interpretation: makeInterpretation(fields),
     };
-    console.log(sections);
+    // console.log(sections);
     return sections
 }
 
 // CORE FUNCTIONS ============================================================================
 
 function updatePreview() {
-    console.log('updating preview');
+    console.log('UPDATING PREVIEW');
     const f = id => document.getElementById(id)?.value || "";
 
     const fields = getFields();
     const sections = writeProse(fields);
+
+    updateFindingsSuboptionsVisibility();
+    updateDischargeVisibility();
 
     const docContent = document.getElementById("documentContent");
     docContent.innerHTML = `
@@ -847,29 +1019,33 @@ function updatePreview() {
             <td>${placeholder(fields.sex)}</td>
         </tr>
         <tr>
-            <td><strong>Medications:</strong></td>
-            <td>${placeholder(fields.medications)}</td>
+            <td><strong>Neurophysisiologist:</strong></td>
+            <td>${placeholder(fields.neuroPhys)}</td>
             <td><strong>Referred by:</strong></td>
             <td>${placeholder(fields.refPhysician)}</td>
         </tr>
         <!-- <tr>
-            <td><strong>Medications:</strong></td>
-            <td>${placeholder(fields.medications)}</td>
+            <td><strong>Neurophysisiologist:</strong></td>
+            <td>${placeholder(fields.neuroPhys)}</td>
             <td></td>
             <td></td>
         </tr> -->
         </table>
   
       <h2>DESCRIPTION</h2>
-      <p>${placeholder(fields.description, "No description provided.")}</p>
+      <p>${placeholder(sections.description, "No description provided.")}</p>
+
+        <h2>BACKGROUND</h2>
+      <p>${placeholder(sections.background, "No background provided.")}</p>
+
+      <h2>FINDINGS</h2>
+      <p>${placeholder(sections.findings, "No findings provided.")}</p>
   
       <h2>DIAGNOSIS</h2>
-      ${fields.diagnosisText.split("\n").map(line =>
-        `<p>${placeholder(line)}</p>`
-    ).join("")}
+      <p>${placeholder(sections.diagnosis, "No diagnosis provided.")}</p>
   
       <h2>CLINICAL INTERPRETATION</h2>
-      <p>${placeholder(fields.clinicalInterp)}</p>
+      <p>${placeholder(sections.interpretation, "No diagnosis provided.")}</p>
   
       <h2>REF</h2>
       <p>${placeholder(fields.ref)}</p>
@@ -928,19 +1104,19 @@ window.downloadDocument = async function () {
                         new TableRow({
                             children: [
                                 makeCell("Medications:", true),
-                                makeCell(fields.medications),
+                                makeCell(fields.neuroPhys),
                                 makeCell("Referred by:", true),
                                 makeCell(fields.refPhysician),
                             ],
                         }),
-                        new TableRow({
-                            children: [
-                                makeCell("Diagnosis:", true),
-                                makeCell(fields.diagnosis),
-                                makeCell("Medications", true),
-                                makeCell(fields.medications),
-                            ],
-                        }),
+                        // new TableRow({
+                        //     children: [
+                        //         makeCell("Diagnosis:", true),
+                        //         makeCell(fields.diagnosis),
+                        //         makeCell("Medications", true),
+                        //         makeCell(fields.medications),
+                        //     ],
+                        // }),
                     ],
                     width: {
                         size: fullWidth,
@@ -959,13 +1135,19 @@ window.downloadDocument = async function () {
                 }),
 
                 makeSectionTitle("DESCRIPTION"),
-                makeParagraph(fields.description),
+                makeParagraph(sections.description),
+
+                makeSectionTitle("BACKGROUND"),
+                makeParagraph(sections.background),
+
+                makeSectionTitle("FINDINGS"),
+                makeParagraph(sections.findings),
 
                 makeSectionTitle("DIAGNOSIS"),
-                ...fields.diagnosisText.split("\n").map(line => makeParagraph(line)),
+                makeParagraph(sections.diagnosis), ,
 
                 makeSectionTitle("CLINICAL INTERPRETATION"),
-                makeParagraph(fields.clinicalInterp),
+                makeParagraph(sections.interpretation),
 
                 makeSectionTitle("REF"),
                 makeParagraph(fields.ref),
@@ -987,12 +1169,82 @@ window.downloadDocument = async function () {
     }, 2000);
 };
 
+function replaceSuboption(str, old, newId) {
+    const newText = selectedOptions(document.getElementById(id))[0];
+    return str.replace(old, newText);
+}
+
+// SUBOPTIONS WITH CONDITIONAL VISIBILITY =======
+
+// function getNumbers(obj, id) {
+//     console.log(selectedOptions(
+//         document.getElementById(id)
+//     ));
+//     return selectedOptions(
+//         document.getElementById(id)
+//     ).map(k =>
+//         obj[k].number
+//     );
+// }
+
+function valueIsIn(element, relevant) {
+    const actual = selectedOptions(element);
+    console.log("ACTUAL", actual);
+    return relevant.some(e => actual.includes(e));
+    el.classList.toggle("hidden", !isContained);
+}
+
+function updateDischargeVisibility() {
+    console.log("UPDATING DISCHARGE VISIBILITY");
+    const id = "dischargePresetsDiv";
+
+    const parent = document.getElementById("diagnosisPresets");
+    const element = document.getElementById(id);
+    isDischarge = valueIsIn(parent, relevantDiagnosisKeys);
+    element.classList.toggle("hidden", !isDischarge);
+    const suboptionNames = selectedOptions(parent);
+    if (suboptionNames.length > 0) {
+        console.log(parent);
+        console.log(suboptionNames);
+        populateSelected("dischargePresets", epileptiformDischargeSuboptions);
+    }
+    // populateSelected("dischargePresets", epileptiformDischargeSuboptions);
+}
+
+function updateFindingsSuboptionsVisibility() {
+    console.log("UPDATING FINDINGS SUBOPTIONS VISIBILITY");
+
+    const parent = document.getElementById("findingsPresets");
+
+    const suboptionNames = selectedOptions(parent);
+
+    function makeVisibleIfSelected(key, id) {
+        const element = document.getElementById(id + "Div");
+        console.log(element);
+        if (suboptionNames.includes(key)) {
+
+            element.classList.toggle("hidden", false);
+
+            console.log(findingsSuboptions[key]);
+            populateSelected(id, findingsSuboptions[key]);
+        } else {
+            element.classList.toggle("hidden", true);
+        }
+    }
+
+    makeVisibleIfSelected(relevantFindingsKeys[0], "findingsPhoticStimulationPresets");
+    makeVisibleIfSelected(relevantFindingsKeys[1], "findingsHyperventilationPresets");
+    makeVisibleIfSelected(relevantFindingsKeys[2], "findingsFocalSlowingPresets");
+
+}
+
+
 // PAGE SETUP =====================================================================================
 
-document.getElementById("diagnosisPreset").addEventListener("change", () => {
-    const preset = document.getElementById("diagnosisPreset").value;
-    if (preset) document.getElementById("diagnosisText").value = preset;
-});
+// document.getElementById("diagnosisPresets").addEventListener("change", () => {
+//     const preset = document.getElementById("diagnosisPresets").value;
+//     if (preset) document.getElementById("diagnosisFreeform").value = preset;
+// });
 
 document.querySelectorAll('input, select, textarea').forEach(element => {
     element.addEventListener('input', () => {
@@ -1008,5 +1260,24 @@ document.querySelectorAll('input, select, textarea').forEach(element => {
         updatePreview();
     });
 });
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    populateSelected("backgroundPresets", descriptionBackgroundOptions);
+    populateSelected("betaPresets", descriptionBetaActivityOptions);
+    populateSelected("sleepPresets", descriptionSleepOptions);
+    populateSelected("findingsPresets", findingsOptions);
+    populateSelected("diagnosisPresets", diagnosisOptions);
+    populateSelected("interpretationPresets", interpretationOptions);
+
+
+
+
+});
+
+document.getElementById("date").value =
+    new Date().toISOString().split("T")[0];
 
 updatePreview();

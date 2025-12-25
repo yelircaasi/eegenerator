@@ -39,6 +39,10 @@ body {
     padding: 20px;
 }
 
+.hidden {
+  display: none;
+}
+
 .container {
     background: var(--container-bg);
     backdrop-filter: blur(20px) saturate(180%);
@@ -96,6 +100,11 @@ body {
 
 .form-group {
     margin-bottom: 12px;
+}
+
+select {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .form-group label {
