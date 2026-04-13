@@ -8,7 +8,7 @@
     "lib": ["ES2022","DOM"],
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "outDir": ".",
+    "outDir": "docs",
     "resolveJsonModule": true,
     "rootDir": "./src",
     "skipLibCheck": true,
@@ -19,6 +19,6 @@
   "include": ["src/**/*"],
   "exclude": [
     "node_modules",
-    "dist"
+    "docs"
   ]
 }
