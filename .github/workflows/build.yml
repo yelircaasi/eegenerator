@@ -1,38 +1,35 @@
 name: Build
-
+ 
 on:
   push:
     branches: [main, develop]
   pull_request:
     branches: [main, develop]
-
+ 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
-
+ 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build with esbuild
-        run: esbuild src/main.ts --bundle --outfile=dist/main.js --format=esm
-
+ 
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v12
+ 
+      - name: Cache Nix store
+        uses: DeterminateSystems/magic-nix-cache-action@v7
+ 
+      - name: Install dependencies with Nix
+        run: nix flake update
+ 
+      - name: Build with esbuild (via Nix)
+        run: nix develop --command esbuild src/main.ts --bundle --outfile=docs/main.js --format=esm
+ 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build-artifacts-node-${{ matrix.node-version }}
-          path: dist/main.js
+          name: build-artifacts
+          path: docs/main.js
           retention-days: 30
+          

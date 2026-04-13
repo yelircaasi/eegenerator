@@ -4,6 +4,7 @@ Single-page webapp to create an EEG report from a template. Supports .docx downl
 
 ## TODO
 
+- [ ] figure out how to use nix in github workflow
 - [ ] fold anything of value in tmp.ts into main.ts: `code --diff src/main.ts ../playground/eegenerator-scratch/scratch/tmp.ts`
 - [ ] compare compiled main.js to original: `code --diff main.js ../playground/eegenerator-scratch/scratch/tmp.js`
 - [ ] consider alternative ways to deal with dependencies
