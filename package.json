@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "build": "esbuild src/main.ts --bundle --outfile=main.js --format=esm"
+  }
+}
