@@ -28,11 +28,11 @@ jobs:
         run: npm ci
 
       - name: Build with esbuild
-        run: esbuild src/main.ts --bundle --outfile=docs/main.js --format=esm
+        run: esbuild src/main.ts --bundle --outfile=dist/main.js --format=esm
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts-node-${{ matrix.node-version }}
-          path: docs/main.js
+          path: dist/main.js
           retention-days: 30

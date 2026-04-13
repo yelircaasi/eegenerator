@@ -1,5 +1,5 @@
 {
   "scripts": {
-    "build": "esbuild src/main.ts --bundle --outfile=docs/main.js --format=esm"
+    "build": "esbuild src/main.ts --bundle --outfile=dist/main.js --format=esm"
   }
 }
