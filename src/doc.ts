@@ -1,7 +1,7 @@
 import { loadBundle, getFields } from "./utils";
 import { writeProse } from "./domain";
 
-const {
+import {
     Document,
     Packer,
     Paragraph,
@@ -13,9 +13,11 @@ const {
     WidthType,
     UnderlineType,
     TableLayoutType,
-} = await loadBundle("https://cdn.jsdelivr.net/npm/docx@9.5.1/+esm");
+} from "docx";
 
-const { saveAs } = await loadBundle("https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js");
+import { saveAs } from "file-saver";
+
+// const { saveAs } = await loadBundle("https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js");
 
 const FontSize = {
     TITLE: 22,
@@ -32,7 +34,6 @@ const fullWidth = 9600; // usable width: (12240 - 2*1440)
 const quarterWidth = fullWidth / 4;
 const makeSectionTitle = (text: string) =>
     new Paragraph({
-        size: FontSize.SECTION_TITLE,
         spacing: { before: 400, after: 400 },
         children: [
             new TextRun({
@@ -134,7 +135,7 @@ async function downloadDocument() {
 
                 makeSectionTitle("REF"),
                 makeParagraph(fields.ref),
-            ]
+            ].filter((child): child is Paragraph | Table => child !== undefined)
         }]
     });
 

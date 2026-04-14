@@ -10,7 +10,7 @@ import {
     joinParts,
 } from "./utils";
 
-const data = await fetchJson<EEGData>('/data.json');
+const data = await fetchJson<EEGData>('./data.json');
 const relevantDiagnosisKeys = ["focalDischarges"];
 const relevantFindingsKeys = ["photicStimulation", "hyperventilation", "focalSlowing"];
 const EDITME_PLACEHOLDER = "____";

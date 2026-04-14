@@ -1,5 +1,12 @@
 {
   "scripts": {
     "build": "esbuild src/main.ts --bundle --outfile=dist/main.js --format=esm"
+  },
+  "dependencies": {
+    "docx": "^9.6.1",
+    "file-saver": "^2.0.5"
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.7"
   }
 }
