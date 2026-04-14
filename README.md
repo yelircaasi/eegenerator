@@ -23,4 +23,16 @@ Single-page webapp to create an EEG report from a template. Supports .docx downl
 - [ ] different versions? one for H, one for general use -> use cookies?
 - [ ] remove "REF" and move Neurophysiologist to where "REF" is; add Intitution section
 - [ ] in "This is a 21 channel digital video EEG recording performed on  y.o. Male. (The patient is not currently maintained on antiepileptic medications.)" -> add space for whether antiepileptic medications are used
-- [ ] 
+- [ ] Background:
+  - 2nd option: remove "Modulated"
+  - "severely suppressed background": separate cerebralactivity
+  - last 5: all subcategories of background reactivity -> make subcategories: call it "Background variability and reactivity"
+- [ ] Background (and other) suboptions: need to gain domain knowledge, but also need to create function+datasctructure for displaying suboption selection -> free-form text entry box?
+
+- Sleep structure:
+  - DROWSINESS:
+    - 4 subcategories
+  - GENERALIZED SLOWING
+    - 4 subcategories
+  - other 2 options
+
