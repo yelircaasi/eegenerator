@@ -1,35 +1,38 @@
 name: Build
- 
+
 on:
   push:
     branches: [main, develop]
   pull_request:
     branches: [main, develop]
- 
+
 jobs:
   build:
     runs-on: ubuntu-latest
- 
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
- 
+
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v12
- 
+        with:
+          diagnostic-endpoint: ""
+
       - name: Cache Nix store
-        uses: DeterminateSystems/magic-nix-cache-action@v7
- 
-      - name: Install dependencies with Nix
-        run: nix flake update
- 
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/nix
+          key: ${{ runner.os }}-nix-${{ hashFiles('flake.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-nix-
+
       - name: Build with esbuild (via Nix)
         run: nix develop --command esbuild src/main.ts --bundle --outfile=docs/main.js --format=esm
- 
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
           path: docs/main.js
           retention-days: 30
-          
