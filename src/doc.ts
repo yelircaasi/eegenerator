@@ -1,23 +1,19 @@
-import { loadBundle, getFields } from "./utils";
+import { getFields } from "./utils";
 import { writeProse } from "./domain";
-
 import {
+    AlignmentType,
     Document,
     Packer,
     Paragraph,
     Table,
     TableCell,
+    TableLayoutType,
     TableRow,
     TextRun,
-    AlignmentType,
-    WidthType,
     UnderlineType,
-    TableLayoutType,
+    WidthType,
 } from "docx";
-
 import { saveAs } from "file-saver";
-
-// const { saveAs } = await loadBundle("https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js");
 
 const FontSize = {
     TITLE: 22,
@@ -154,7 +150,7 @@ async function downloadDocument() {
 };
 
 export {
-    makeParagraph,
-    makeCell,
     downloadDocument,
+    makeCell,
+    makeParagraph,
 };

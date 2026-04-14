@@ -139,7 +139,17 @@ function updateFindingsSuboptionsVisibility() {
 
 }
 
+function setSelectionOptions() {
+    populateSelected("backgroundPresets", data.descriptionBackgroundOptions);
+    populateSelected("betaPresets", data.descriptionBetaActivityOptions);
+    populateSelected("sleepPresets", data.descriptionSleepOptions);
+    populateSelected("findingsPresets", data.findingsOptions);
+    populateSelected("diagnosisPresets", data.diagnosisOptions);
+    populateSelected("interpretationPresets", data.interpretationOptions);
+}
+
 export {
+    setSelectionOptions,
     updateDischargeVisibility,
     updateFindingsSuboptionsVisibility,
     updatePreview,

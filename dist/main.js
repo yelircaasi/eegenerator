@@ -124,7 +124,13 @@ function getSelectedTexts(id, optionsByKey) {
 }
 function populateSelected(selectId, options) {
   const select = document.getElementById(selectId);
-  if (select?.options.length === 0) {
+  console.log(`Populating ${selectId}:`, {
+    exists: !!select,
+    optionsLength: select?.options.length,
+    willPopulate: select?.options.length === 0
+  });
+  if (select.options.length === 0) {
+    console.log(`\u2713 Populating ${selectId} with ${Object.keys(options).length} options`);
     select.innerHTML = "";
     Object.entries(options).sort((a, b) => a[1].number - b[1].number).forEach(([key, opt]) => {
       const o = document.createElement("option");
@@ -133,11 +139,13 @@ function populateSelected(selectId, options) {
       select.appendChild(o);
     });
     try {
-      console.log(selectId);
       select.size = select.options.length;
-    } catch {
+      console.log(`\u2713 Set size to ${select.size}`);
+    } catch (error) {
+      console.error(`Failed to set size:`, error);
     }
-    ;
+  } else {
+    console.log(`\u2717 Skipping ${selectId} - already has ${select.options.length} options`);
   }
 }
 function getText(id) {
@@ -147,23 +155,25 @@ function joinParts(stringArray) {
   return stringArray.filter((s) => s !== "").join(" ");
 }
 function getFields() {
-  return {
-    title: getElementValue("reportTitle") || "EEG Report",
+  const fields = {
+    title: getElementValue("reportTitle", "EEG Report"),
     patientName: getElementValue("patientName", "Peter Peterson"),
     date: getElementValue("date"),
     age: getElementValue("age", "101"),
     sex: getElementValue("sex"),
     neuroPhys: getElementValue("neuroPhys", "Aleksandra Aleksandrovna"),
     refPhysician: getElementValue("refPhysician", "Hakim Hakimi"),
-    diagnosis: getElementValue("diagnosis"),
-    medications: getElementValue("medications"),
-    description: getElementValue("description"),
-    background: getElementValue("background"),
-    findings: getElementValue("findings"),
-    diagnosisFreeform: getElementValue("diagnosisFreeform"),
-    clinicalInterp: getElementValue("clinicalInterp"),
-    ref: getElementValue("ref")
+    diagnosis: getElementValue("diagnosis", "DEATH"),
+    medications: getElementValue("medications", "FENTANYL AND VODKA"),
+    description: getElementValue("description", "DESCRIPTION"),
+    background: getElementValue("background", "NO BACKGROUND"),
+    findings: getElementValue("findings", "NOTHING FOUND"),
+    diagnosisFreeform: getElementValue("diagnosisFreeform", "DEATH AND MORE DEATH"),
+    clinicalInterp: getElementValue("clinicalInterp", "NO IDEA"),
+    ref: getElementValue("ref", "WTF IS REF")
   };
+  console.log(fields);
+  return fields;
 }
 var placeholder = (text, fallback = "\u2014") => text && text.trim() ? `<span style="white-space: pre-wrap;">${text}<span>` : `<span class="placeholder">${fallback}</span>`;
 async function fetchJson(url) {
@@ -183,13 +193,14 @@ function setDate() {
 
 // src/domain.ts
 var data = await fetchJson("./data.json");
+console.log(data);
 var relevantDiagnosisKeys = ["focalDischarges"];
 var relevantFindingsKeys = ["photicStimulation", "hyperventilation", "focalSlowing"];
 var EDITME_PLACEHOLDER = "____";
 function renderText(template, replacements = []) {
   let out = template;
   for (const value of replacements) {
-    out = out.replace("${EDITME}", value ?? EDITME_PLACEHOLDER);
+    out = out.replace(/\$\{EDITME\}/, value ?? EDITME_PLACEHOLDER);
   }
   return out.replace(/\$\{EDITME\}/g, EDITME_PLACEHOLDER);
 }
@@ -20031,6 +20042,14 @@ function updateFindingsSuboptionsVisibility() {
   makeVisibleIfSelected(relevantFindingsKeys[1], "findingsHyperventilationPresets");
   makeVisibleIfSelected(relevantFindingsKeys[2], "findingsFocalSlowingPresets");
 }
+function setSelectionOptions() {
+  populateSelected("backgroundPresets", data.descriptionBackgroundOptions);
+  populateSelected("betaPresets", data.descriptionBetaActivityOptions);
+  populateSelected("sleepPresets", data.descriptionSleepOptions);
+  populateSelected("findingsPresets", data.findingsOptions);
+  populateSelected("diagnosisPresets", data.diagnosisOptions);
+  populateSelected("interpretationPresets", data.interpretationOptions);
+}
 
 // src/main.ts
 window.downloadDocument = downloadDocument;
@@ -20048,13 +20067,7 @@ document.querySelectorAll("input, select, textarea").forEach((element) => {
     updatePreview();
   });
 });
-document.addEventListener("DOMContentLoaded", () => {
-  populateSelected("backgroundPresets", data.descriptionBackgroundOptions);
-  populateSelected("betaPresets", data.descriptionBetaActivityOptions);
-  populateSelected("sleepPresets", data.descriptionSleepOptions);
-  populateSelected("findingsPresets", data.findingsOptions);
-  populateSelected("diagnosisPresets", data.diagnosisOptions);
-  populateSelected("interpretationPresets", data.interpretationOptions);
-});
+document.addEventListener("DOMContentLoaded", setSelectionOptions);
+setSelectionOptions();
 setDate();
 updatePreview();

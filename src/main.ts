@@ -1,12 +1,11 @@
 export { };
 
-import {
-    populateSelected,
-    setDate,
-} from "./utils";
+import { setDate } from "./utils";
 import { downloadDocument } from "./doc";
-import { data } from "./domain";
-import { updatePreview } from "./update";
+import {
+    setSelectionOptions,
+    updatePreview,
+} from "./update";
 
 declare global {
     interface Window {
@@ -31,14 +30,8 @@ document.querySelectorAll('input, select, textarea').forEach(element => {
     });
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    populateSelected("backgroundPresets", data.descriptionBackgroundOptions);
-    populateSelected("betaPresets", data.descriptionBetaActivityOptions);
-    populateSelected("sleepPresets", data.descriptionSleepOptions);
-    populateSelected("findingsPresets", data.findingsOptions);
-    populateSelected("diagnosisPresets", data.diagnosisOptions);
-    populateSelected("interpretationPresets", data.interpretationOptions);
-});
+document.addEventListener("DOMContentLoaded", setSelectionOptions);
 
+setSelectionOptions();
 setDate();
 updatePreview();

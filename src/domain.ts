@@ -11,6 +11,7 @@ import {
 } from "./utils";
 
 const data = await fetchJson<EEGData>('./data.json');
+console.log(data);
 const relevantDiagnosisKeys = ["focalDischarges"];
 const relevantFindingsKeys = ["photicStimulation", "hyperventilation", "focalSlowing"];
 const EDITME_PLACEHOLDER = "____";
@@ -18,7 +19,7 @@ const EDITME_PLACEHOLDER = "____";
 function renderText(template: string, replacements = []) {
     let out = template;
     for (const value of replacements) {
-        out = out.replace("${EDITME}", value ?? EDITME_PLACEHOLDER);
+        out = out.replace(/\$\{EDITME\}/, value ?? EDITME_PLACEHOLDER);
     }
     return out.replace(/\$\{EDITME\}/g, EDITME_PLACEHOLDER);
 }

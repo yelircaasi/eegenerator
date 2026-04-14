@@ -1,9 +1,4 @@
-import type { Responses } from "./types";
-
-async function loadBundle(bundle: string) {
-    const mod = await import(bundle);
-    return mod;
-}
+import type { OptionsMap } from "./types";
 
 function getElementValue(id: string, defaultValue: string = ""): string {
     const element = document.getElementById(id);
@@ -16,7 +11,6 @@ function getElementValue(id: string, defaultValue: string = ""): string {
 
 function getSelectedOptionsFromElement(selectEl: HTMLSelectElement) {
     return Boolean(selectEl) ? Array.from(selectEl.selectedOptions).map(o => o.value) : [];
-
 }
 
 function getSelectedOptions(id: string) {
@@ -24,7 +18,7 @@ function getSelectedOptions(id: string) {
     return getSelectedOptionsFromElement(selectEl)
 }
 
-function getSelectedTexts(id: string, optionsByKey: Responses) {
+function getSelectedTexts(id: string, optionsByKey: OptionsMap) {
     const selectEl = document.getElementById(id) as HTMLSelectElement;
     if (!selectEl) return [];
 
@@ -33,12 +27,19 @@ function getSelectedTexts(id: string, optionsByKey: Responses) {
         .filter(Boolean);
 }
 
-function populateSelected(selectId: string, options: Responses) {
-
+function populateSelected(selectId: string, options: OptionsMap) {
     const select = document.getElementById(selectId) as HTMLSelectElement;
-    if (select?.options.length === 0) {
+    
+    console.log(`Populating ${selectId}:`, {
+        exists: !!select,
+        optionsLength: select?.options.length,
+        willPopulate: select?.options.length === 0
+    });
+    
+    if (select.options.length === 0) {
+        console.log(`✓ Populating ${selectId} with ${Object.keys(options).length} options`);
         select.innerHTML = "";
-
+        
         Object.entries(options)
             .sort((a, b) => a[1].number - b[1].number)
             .forEach(([key, opt]) => {
@@ -47,10 +48,15 @@ function populateSelected(selectId: string, options: Responses) {
                 o.textContent = opt.short ?? key;
                 select.appendChild(o);
             });
+        
         try {
-            console.log(selectId);
             select.size = select.options.length;
-        } catch { };
+            console.log(`✓ Set size to ${select.size}`);
+        } catch (error) {
+            console.error(`Failed to set size:`, error);
+        }
+    } else {
+        console.log(`✗ Skipping ${selectId} - already has ${select.options.length} options`);
     }
 }
 
@@ -63,23 +69,25 @@ function joinParts(stringArray: string[]) {
 }
 
 function getFields() {
-    return {
-        title: getElementValue("reportTitle") || "EEG Report",
+    const fields = {
+        title: getElementValue("reportTitle", "EEG Report"),
         patientName: getElementValue("patientName", "Peter Peterson"),
         date: getElementValue("date"),
         age: getElementValue("age", "101"),
         sex: getElementValue("sex"),
         neuroPhys: getElementValue("neuroPhys", "Aleksandra Aleksandrovna"),
         refPhysician: getElementValue("refPhysician", "Hakim Hakimi"),
-        diagnosis: getElementValue("diagnosis"),
-        medications: getElementValue("medications"),
-        description: getElementValue("description"),
-        background: getElementValue("background"),
-        findings: getElementValue("findings"),
-        diagnosisFreeform: getElementValue("diagnosisFreeform"),
-        clinicalInterp: getElementValue("clinicalInterp"),
-        ref: getElementValue("ref"),
+        diagnosis: getElementValue("diagnosis", "DEATH"),
+        medications: getElementValue("medications", "FENTANYL AND VODKA"),
+        description: getElementValue("description", "DESCRIPTION"),
+        background: getElementValue("background", "NO BACKGROUND"),
+        findings: getElementValue("findings", "NOTHING FOUND"),
+        diagnosisFreeform: getElementValue("diagnosisFreeform", "DEATH AND MORE DEATH"),
+        clinicalInterp: getElementValue("clinicalInterp", "NO IDEA"),
+        ref: getElementValue("ref", "WTF IS REF")
     };
+    console.log(fields);
+    return fields
 }
 
 const placeholder = (text: string, fallback: string = "—") =>
@@ -105,7 +113,6 @@ function setDate() {
 }
 
 export {
-    loadBundle,
     fetchJson,
     getElementValue,
     getFields,
@@ -116,6 +123,6 @@ export {
     joinParts,
     placeholder,
     populateSelected,
-    valueIsIn,
     setDate,
+    valueIsIn,
 }

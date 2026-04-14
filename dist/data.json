@@ -3,12 +3,12 @@
         "awakeWellModulated": {
             "number": 1,
             "short": "Well-developed, well-modulated background activity",
-            "text": "When awake, the background consisted of well developed, well-modulated ______ Hz activity with posterior predominance that reacted to eye opening and eye closure."
+            "text": "When awake, the background consisted of well developed, well-modulated ${EDITME} Hz activity with posterior predominance that reacted to eye opening and eye closure."
         },
         "awakeModulated": {
             "number": 2,
             "short": "Modulated background activity",
-            "text": "When awake, the background consisted of ______ Hz activity with posterior predominance that reacted to eye opening and eye closure."
+            "text": "When awake, the background consisted of ${EDITME} Hz activity with posterior predominance that reacted to eye opening and eye closure."
         },
         "noNormalBackground": {
             "number": 3,
@@ -23,7 +23,7 @@
         "maximumAlertBackground": {
             "number": 5,
             "short": "Background when maximally alert",
-            "text": "When maximally alert, the background consisted of ______"
+            "text": "When maximally alert, the background consisted of ${EDITME}"
         },
         "severelySuppressed": {
             "number": 6,
@@ -33,12 +33,12 @@
         "suppressedBackground": {
             "number": 7,
             "short": "Suppressed background",
-            "text": "The background was ______ suppressed ______."
+            "text": "The background was ${EDITME} suppressed ${EDITME}."
         },
         "brainDeathProtocolResult": {
             "number": 8,
             "short": "Brain death protocol assessment",
-            "text": "Using the brain death protocol with double distance derivations, high sensitivity at 20 microV/cm and high cut filter set at 35 Hz and after testing the integrity of the system by taping each electrode separately and stimulating the patient, ______."
+            "text": "Using the brain death protocol with double distance derivations, high sensitivity at 20 microV/cm and high cut filter set at 35 Hz and after testing the integrity of the system by taping each electrode separately and stimulating the patient, ${EDITME}."
         },
         "brainDeathProtocolNegative": {
             "number": 9,
@@ -68,7 +68,7 @@
         "backgroundFreeform": {
             "number": 14,
             "short": "Additional background description",
-            "text": "______"
+            "text": "${EDITME}"
         }
     },
     "descriptionBetaActivityOptions": {
@@ -85,7 +85,7 @@
         "betaPaucity": {
             "number": 3,
             "short": "Paucity of beta activity",
-            "text": "There is a paucity of beta activity over ______."
+            "text": "There is a paucity of beta activity over ${EDITME}."
         }
     },
     "descriptionSleepOptions": {
@@ -137,7 +137,7 @@
         "sleepFreeform": {
             "number": 10,
             "short": "Additional sleep findings",
-            "text": "______ (describe additional sleep characteristics)"
+            "text": "${EDITME} (describe additional sleep characteristics)"
         }
     },
     "findingsSuboptions": {
@@ -170,7 +170,7 @@
             "6": {
                 "number": 6,
                 "short": "free-form",
-                "text": "______ (mention seizures if present)"
+                "text": "${EDITME} (mention seizures if present)"
             }
         },
         "hyperventilation": {
@@ -197,7 +197,7 @@
             "other": {
                 "number": 5,
                 "short": "other (seizures?)",
-                "text": "______ (Mention seizures if present)"
+                "text": "${EDITME} (Mention seizures if present)"
             }
         },
         "focalSlowing": {
@@ -233,7 +233,7 @@
             }
         }
     },
-    "": {
+    "findingsOptions": {
         "photicStimulation": {
             "number": 1,
             "short": "Photic stimulation response",
@@ -262,27 +262,27 @@
         "focalSharpWaves": {
             "number": 6,
             "short": "Focal sharp waves",
-            "text": "{______: Frequent/occasional/rare} focal sharp waves originating from the ______."
+            "text": "{${EDITME}: Frequent/occasional/rare} focal sharp waves originating from the ${EDITME}."
         },
         "focalSharpWavesDetailed": {
             "number": 7,
             "short": "Focal sharp waves (detailed description)",
-            "text": "______, focal spikes / sharp waves / spike and slow wave / sharp waves with an aftergoing slow wave / polyspikes / rounded contour sharp waves/ ______ were seen with a maximum potential over the ______ electrode site and a field involving the ______."
+            "text": "${EDITME}, focal spikes / sharp waves / spike and slow wave / sharp waves with an aftergoing slow wave / polyspikes / rounded contour sharp waves/ ${EDITME} were seen with a maximum potential over the ${EDITME} electrode site and a field involving the ${EDITME}."
         },
         "focalSlowing": {
             "number": 8,
             "short": "Focal slowing",
-            "text": "______ {Frequent/Intermittent/Rare} focal slowing over the {0}"
+            "text": "${EDITME} {Frequent/Intermittent/Rare} focal slowing over the {0}"
         },
         "focalSlowingDetailed": {
             "number": 9,
             "short": "Focal slowing (detailed description)",
-            "text": "______, focal ______ slowing was seen with a maximum potential over the ______ electrode site and a field involving the ______."
+            "text": "${EDITME}, focal ${EDITME} slowing was seen with a maximum potential over the ${EDITME} electrode site and a field involving the ${EDITME}."
         },
         "focalSlowingMax": {
             "number": 10,
             "short": "Focal slowing with similar distribution",
-            "text": "______, focal slowing was seen with a similar topographic distribution."
+            "text": "${EDITME}, focal slowing was seen with a similar topographic distribution."
         },
         "focalSlowingExcessive": {
             "number": 11,
@@ -292,32 +292,32 @@
         "roundedContourSharpWaves": {
             "number": 12,
             "short": "Rounded contour sharp waves",
-            "text": "Rounded contour sharp waves were seen originating independently from ______ areas. These discharges were {0} in wakefulness and increased in abundance in drowsiness and sleep to become {0}."
+            "text": "Rounded contour sharp waves were seen originating independently from ${EDITME} areas. These discharges were {0} in wakefulness and increased in abundance in drowsiness and sleep to become {0}."
         },
         "generalizedDischargesWithSpikes": {
             "number": 13,
             "short": "Generalized discharges with spike bursts",
-            "text": "During those states, fragments of the generalized discharges were seen over one of the ______ areas with a shifting hemispheric emphasis, as well as a brief bursts of generalized spike and polyspike and wave discharges lasting up to ______ seconds and not associated with any detectable clinical change. Those discharges typically overrode a K-complex or a sleep spindle (dyshormia pattern). The frequency of the epileptiform discharges during wakefulness and during stage II sleep was rated as ______."
+            "text": "During those states, fragments of the generalized discharges were seen over one of the ${EDITME} areas with a shifting hemispheric emphasis, as well as a brief bursts of generalized spike and polyspike and wave discharges lasting up to ${EDITME} seconds and not associated with any detectable clinical change. Those discharges typically overrode a K-complex or a sleep spindle (dyshormia pattern). The frequency of the epileptiform discharges during wakefulness and during stage II sleep was rated as ${EDITME}."
         },
         "generalizedDischargesFragmented": {
             "number": 14,
             "short": "Fragmented generalized discharges",
-            "text": "During those states, fragments of the generalized discharges were seen over one of the ______ areas with a shifting hemispheric emphasis. The frequency of the epileptiform discharges during wakefulness and during stage II sleep was rated as ______."
+            "text": "During those states, fragments of the generalized discharges were seen over one of the ${EDITME} areas with a shifting hemispheric emphasis. The frequency of the epileptiform discharges during wakefulness and during stage II sleep was rated as ${EDITME}."
         },
         "spiky Alpha": {
             "number": 15,
             "short": "Spiky alpha activity on eye closure",
-            "text": "The salient feature of this recording was the frequent occurrence after eye closure of spiky alpha activity seen over both posterior head regions, ______ with either eye flutter or eyelid myoclonia."
+            "text": "The salient feature of this recording was the frequent occurrence after eye closure of spiky alpha activity seen over both posterior head regions, ${EDITME} with either eye flutter or eyelid myoclonia."
         },
         "breachRhythm": {
             "number": 16,
             "short": "Breach rhythm",
-            "text": "Breach rhythm was seen over the ______."
+            "text": "Breach rhythm was seen over the ${EDITME}."
         },
         "breachRhythmDetailed": {
             "number": 17,
             "short": "Breach rhythm (detailed description)",
-            "text": "Breach rhythm manifesting as ______ was ______ seen localized to the ______."
+            "text": "Breach rhythm manifesting as ${EDITME} was ${EDITME} seen localized to the ${EDITME}."
         },
         "artifactContamination": {
             "number": 18,
@@ -327,17 +327,17 @@
         "recordedSeizure": {
             "number": 19,
             "short": "Video-recorded spell",
-            "text": "The patient habitual spell of ______ was video-recorded at ______. On scalp-EEG, no definite detectable change was noted."
+            "text": "The patient habitual spell of ${EDITME} was video-recorded at ${EDITME}. On scalp-EEG, no definite detectable change was noted."
         },
         "seizureDescription": {
             "number": 20,
             "short": "Seizure details",
-            "text": "______ (Mention seizures if present) "
+            "text": "${EDITME} (Mention seizures if present) "
         },
         "extras": {
             "number": 21,
             "short": "Additional findings",
-            "text": "______ (Extras: normal variants, artifacts, etc.)"
+            "text": "${EDITME} (Extras: normal variants, artifacts, etc.)"
         },
         "additionalNotes": {
             "number": 22,
@@ -354,7 +354,7 @@
         "generalizedSlowing": {
             "number": 2,
             "short": "Generalized slowing",
-            "text": "______ generalized slowing of the background activity."
+            "text": "${EDITME} generalized slowing of the background activity."
         },
         "intermittentSuppression": {
             "number": 3,
@@ -374,7 +374,7 @@
         "spindlePaucity": {
             "number": 6,
             "short": "Paucity of sleep spindles",
-            "text": "Paucity of sleep spindles over ______."
+            "text": "Paucity of sleep spindles over ${EDITME}."
         },
         "normalFeatureAbsence": {
             "number": 7,
@@ -384,12 +384,12 @@
         "atypicalSpikeWaveBursts": {
             "number": 8,
             "short": "Bursts of atypical spike and wave discharges",
-            "text": "______ bursts of generalized atypical spike and polyspike and wave discharges seen during ______."
+            "text": "${EDITME} bursts of generalized atypical spike and polyspike and wave discharges seen during ${EDITME}."
         },
         "generalizedSpikeWaveFragments": {
             "number": 9,
             "short": "Fragments of generalized spike and wave",
-            "text": "______ fragments of generalized spike and wave discharges seen during ______."
+            "text": "${EDITME} fragments of generalized spike and wave discharges seen during ${EDITME}."
         },
         "dyshormiaPattern": {
             "number": 10,
@@ -399,7 +399,7 @@
         "photoparoxysmalResponse": {
             "number": 11,
             "short": "Photoparoxysmal responses",
-            "text": "______ photoparoxysmal responses following stimulation with multiple flash frequencies."
+            "text": "${EDITME} photoparoxysmal responses following stimulation with multiple flash frequencies."
         },
         "spiky AlphaNoMyoclonia": {
             "number": 12,
@@ -424,7 +424,7 @@
         "epilepticSpasms": {
             "number": 16,
             "short": "Epileptic spasms",
-            "text": "______ epileptic spasms ______."
+            "text": "${EDITME} epileptic spasms ${EDITME}."
         },
         "multifocalSpikes": {
             "number": 17,
@@ -449,12 +449,12 @@
         "focalSlowing": {
             "number": 21,
             "short": "Focal slowing",
-            "text": "______ focal slowing involving the ______."
+            "text": "${EDITME} focal slowing involving the ${EDITME}."
         },
         "triphasicWaves": {
             "number": 22,
             "short": "Triphasic waves",
-            "text": "______ triphasic waves."
+            "text": "${EDITME} triphasic waves."
         },
         "excessiveBetaActivity": {
             "number": 23,
@@ -479,7 +479,7 @@
         "seizuresRecorded": {
             "number": 27,
             "short": "Recorded seizures",
-            "text": "Recorded ______ seizures ______."
+            "text": "Recorded ${EDITME} seizures ${EDITME}."
         },
         "diagnosisFreeform": {
             "number": 28,
@@ -491,17 +491,17 @@
         "1": {
             "number": 1,
             "short": "localization-related, focal",
-            "text": "a localization-related epilepsy, with focal irritative zone involving the ______ head regions."
+            "text": "a localization-related epilepsy, with focal irritative zone involving the ${EDITME} head regions."
         },
         "2": {
             "number": 2,
             "short": "localization-related, multifocal",
-            "text": "a localization-related epilepsy, with multifocal irritative zone involving the ______* head regions."
+            "text": "a localization-related epilepsy, with multifocal irritative zone involving the ${EDITME}* head regions."
         },
         "3": {
             "number": 3,
             "short": "localization-related, wide",
-            "text": "a localization-related epilepsy, with wide irritative zone involving the ______ head regions."
+            "text": "a localization-related epilepsy, with wide irritative zone involving the ${EDITME} head regions."
         },
         "4": {
             "number": 4,
@@ -516,7 +516,7 @@
         "6": {
             "number": 5,
             "short": "generalized epilepsy",
-            "text": "an idiopathic/genetic generalized epilepsy and are compatible with the patient previous diagnosis of ______."
+            "text": "an idiopathic/genetic generalized epilepsy and are compatible with the patient previous diagnosis of ${EDITME}."
         },
         "7": {
             "number": 6,
@@ -543,17 +543,17 @@
         "diffuseDisturbance": {
             "number": 3,
             "short": "Diffuse disturbance in cerebral function",
-            "text": "This record is indicative of ______ diffuse disturbance in cerebral function of non-specific etiology."
+            "text": "This record is indicative of ${EDITME} diffuse disturbance in cerebral function of non-specific etiology."
         },
         "diffuseWithFocalDysfunction": {
             "number": 4,
             "short": "Diffuse disturbance with superimposed focal dysfunction",
-            "text": "This record is indicative of ______ diffuse disturbance in cerebral function of non-specific etiology with a superimposed ______ neuronal dysfunction over the ______."
+            "text": "This record is indicative of ${EDITME} diffuse disturbance in cerebral function of non-specific etiology with a superimposed ${EDITME} neuronal dysfunction over the ${EDITME}."
         },
         "focalNeuronalDysfunction": {
             "number": 5,
             "short": "Focal neuronal dysfunction",
-            "text": "This record is indicative of ______ neuronal dysfunction involving the ______."
+            "text": "This record is indicative of ${EDITME} neuronal dysfunction involving the ${EDITME}."
         },
         "structuralLesionRuleOut": {
             "number": 6,
@@ -603,7 +603,7 @@
         "nonEpilepticSpell": {
             "number": 15,
             "short": "Non-epileptic spell diagnosis",
-            "text": "The recorded spell is diagnostic of non-epileptic ______ spell."
+            "text": "The recorded spell is diagnostic of non-epileptic ${EDITME} spell."
         },
         "nonEpilepticSpells": {
             "number": 16,
@@ -638,7 +638,7 @@
         "seizureDiagnostic": {
             "number": 22,
             "short": "Seizure diagnosis",
-            "text": "The recorded seizure is diagnostic of ______."
+            "text": "The recorded seizure is diagnostic of ${EDITME}."
         },
         "breachRhythmExplanation": {
             "number": 23,
@@ -653,12 +653,12 @@
         "normalVariant": {
             "number": 25,
             "short": "Normal variant of unknown significance",
-            "text": "______ are considered normal variant of unknown significance and not epileptiform in nature."
+            "text": "${EDITME} are considered normal variant of unknown significance and not epileptiform in nature."
         },
         "impressionFreeform": {
             "number": 26,
             "short": "Additional impression",
-            "text": "______"
+            "text": "${EDITME}"
         }
     }
 }

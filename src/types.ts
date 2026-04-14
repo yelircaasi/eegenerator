@@ -1,31 +1,23 @@
-interface ResponseTriple {
-        number: number;
-        short: string;
-        text: string;
-};
-
-type Responses = Record<string, ResponseTriple>;
-
-interface EEGData {
-    descriptionBackgroundOptions: Responses;
-    descriptionBetaActivityOptions: Responses;
-    descriptionSleepOptions: Responses;
-    diagnosisOptions: Responses;
-    epileptiformDischargeSuboptions: Responses;
-    interpretationOptions: Responses;
-    findingsSuboptions: Record<string, Record<number, ResponseTriple>>;
-    findingsOptions: Responses;
-};
-
 interface OptionConfig {
     text: string;
-    number?: number;
-    short?: string;
+    number: number;
+    short: string;
 }
 
 interface OptionsMap {
     [key: string]: OptionConfig;
 }
+
+interface EEGData {
+    descriptionBackgroundOptions: OptionsMap;
+    descriptionBetaActivityOptions: OptionsMap;
+    descriptionSleepOptions: OptionsMap;
+    diagnosisOptions: OptionsMap;
+    epileptiformDischargeSuboptions: OptionsMap;
+    interpretationOptions: OptionsMap;
+    findingsSuboptions: Record<string, OptionsMap>;
+    findingsOptions: OptionsMap;
+};
 
 interface FormFields {
     title: string;
@@ -68,6 +60,4 @@ export {
     OptionConfig,
     OptionsMap,
     ReportSections,
-    Responses,
-    ResponseTriple,
 }
