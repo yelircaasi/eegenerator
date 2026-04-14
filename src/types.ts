@@ -1,26 +1,73 @@
-export interface ResponseTriple {
+interface ResponseTriple {
         number: number;
         short: string;
         text: string;
 };
 
-export type Responses = Record<string, ResponseTriple>;
+type Responses = Record<string, ResponseTriple>;
 
-export interface EEGData {
+interface EEGData {
     descriptionBackgroundOptions: Responses;
     descriptionBetaActivityOptions: Responses;
     descriptionSleepOptions: Responses;
+    diagnosisOptions: Responses;
+    epileptiformDischargeSuboptions: Responses;
+    interpretationOptions: Responses;
     findingsSuboptions: Record<string, Record<number, ResponseTriple>>;
-    findingsOptions: Record<string, Record<number, ResponseTriple>>;
+    findingsOptions: Responses;
 };
 
+interface OptionConfig {
+    text: string;
+    number?: number;
+    short?: string;
+}
 
+interface OptionsMap {
+    [key: string]: OptionConfig;
+}
 
-// const descriptionBackgroundOptions: Responses = data.descriptionBackgroundOptions;
-// const descriptionBetaActivityOptions: Responses = data.descriptionBackgroundOptions;
-// const descriptionSleepOptions: Responses = data.descriptionSleepOptions;
-// const findingsSuboptions: Responses = data.findingsSuboptions;
-// const findingsOptions: Responses = data.findingsOptions;
-// const diagnosisOptions: Responses = data.diagnosisOptions;
-// const epileptiformDischargeSuboptions: Responses = data.epileptiformDischargeSuboptions;
-// const interpretationOptions: Responses = data.interpretationOptions;
+interface FormFields {
+    title: string;
+    patientName: string;
+    date: string;
+    age: string;
+    sex: string;
+    neuroPhys: string;
+    refPhysician: string;
+    diagnosis: string;
+    medications: string;
+    description: string;
+    background: string;
+    findings: string;
+    diagnosisFreeform: string;
+    clinicalInterp: string;
+    ref: string;
+}
+
+interface ReportSections {
+    background: string;
+    description: string;
+    findings: string;
+    diagnosis: string;
+    interpretation: string;
+}
+
+interface FontSizes {
+    TITLE: number;
+    HEADER: number;
+    TEXT: number;
+    TABLE: number;
+    SECTION_TITLE: number;
+}
+
+export {
+    EEGData,    
+    FontSizes,
+    FormFields,
+    OptionConfig,
+    OptionsMap,
+    ReportSections,
+    Responses,
+    ResponseTriple,
+}
